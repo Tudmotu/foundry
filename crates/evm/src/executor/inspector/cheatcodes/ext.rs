@@ -5,6 +5,7 @@ use ethers::{
     abi::{self, AbiEncode, JsonAbi, ParamType, Token},
     prelude::artifacts::CompactContractBytecode,
     types::*,
+    utils::format_units,
 };
 use foundry_common::{fmt::*, fs, get_artifact_path};
 use foundry_config::fs_permissions::FsAccessKind;
@@ -527,6 +528,11 @@ fn duration_since_epoch() -> Result {
     Ok(rU256::from(millis).to_ethers().encode().into())
 }
 
+/// Formats a number with the given number of decimals
+fn format_units_impl(amount: &U256, units: u32) -> Result {
+    Ok(format_units(*amount, units).unwrap().encode().into())
+}
+
 /// Skip the current test, by returning a magic value that will be checked by the test runner.
 pub fn skip(state: &mut Cheatcodes, depth: u64, skip: bool) -> Result {
     if !skip {
@@ -732,6 +738,7 @@ pub fn apply<DB: Database>(
         }
         HEVMCalls::Sleep(inner) => sleep(&inner.0),
         HEVMCalls::UnixTime(_) => duration_since_epoch(),
+        HEVMCalls::FormatUnits(inner) => format_units_impl(&inner.0, inner.1),
         HEVMCalls::WriteJson0(inner) => write_json(state, &inner.0, &inner.1, None),
         HEVMCalls::WriteJson1(inner) => write_json(state, &inner.0, &inner.1, Some(&inner.2)),
         HEVMCalls::KeyExists(inner) => key_exists(&inner.0, &inner.1),

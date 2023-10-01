@@ -240,3 +240,4 @@ getMappingKeyAndParentOf(address,bytes32)
 
 sleep(uint256)
 unixTime()(uint256)
+formatUnits(uint256, uint32)(string)

@@ -584,6 +584,9 @@ interface Vm {
     // Generic rpc call function
     function rpc(string calldata, string calldata) external returns (bytes memory);
 
+    // Formats a number with the given number of decimals
+    function formatUnits(uint256 amount, uint32 decimals) external returns (string memory);
+
     function parseJson(string calldata, string calldata) external returns (bytes memory);
 
     function parseJson(string calldata) external returns (bytes memory);

@@ -2089,6 +2089,35 @@ pub mod hevm {
                     ],
                 ),
                 (
+                    ::std::borrow::ToOwned::to_owned("formatUnits"),
+                    ::std::vec![
+                        ::ethers_core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("formatUnits"),
+                            inputs: ::std::vec![
+                                ::ethers_core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers_core::abi::ethabi::ParamType::Uint(256usize),
+                                    internal_type: ::core::option::Option::None,
+                                },
+                                ::ethers_core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers_core::abi::ethabi::ParamType::Uint(32usize),
+                                    internal_type: ::core::option::Option::None,
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers_core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers_core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::None,
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers_core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
                     ::std::borrow::ToOwned::to_owned("fsMetadata"),
                     ::std::vec![
                         ::ethers_core::abi::ethabi::Function {
@@ -6227,6 +6256,16 @@ pub mod hevm {
                 .method_hash([137, 22, 4, 103], p0)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `formatUnits` (0x0fe56c80) function
+        pub fn format_units(
+            &self,
+            p0: ::ethers_core::types::U256,
+            p1: u32,
+        ) -> ::ethers_contract::builders::ContractCall<M, ::std::string::String> {
+            self.0
+                .method_hash([15, 229, 108, 128], (p0, p1))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `fsMetadata` (0xaf368a08) function
         pub fn fs_metadata(
             &self,
@@ -8737,6 +8776,19 @@ pub mod hevm {
     )]
     #[ethcall(name = "ffi", abi = "ffi(string[])")]
     pub struct FfiCall(pub ::std::vec::Vec<::std::string::String>);
+    ///Container type for all input parameters for the `formatUnits` function with signature `formatUnits(uint256,uint32)` and selector `0x0fe56c80`
+    #[derive(
+        Clone,
+        ::ethers_contract::EthCall,
+        ::ethers_contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash
+    )]
+    #[ethcall(name = "formatUnits", abi = "formatUnits(uint256,uint32)")]
+    pub struct FormatUnitsCall(pub ::ethers_core::types::U256, pub u32);
     ///Container type for all input parameters for the `fsMetadata` function with signature `fsMetadata(string)` and selector `0xaf368a08`
     #[derive(
         Clone,
@@ -10686,6 +10738,7 @@ pub mod hevm {
         ExpectSafeMemoryCall(ExpectSafeMemoryCallCall),
         Fee(FeeCall),
         Ffi(FfiCall),
+        FormatUnits(FormatUnitsCall),
         FsMetadata(FsMetadataCall),
         GetCode(GetCodeCall),
         GetDeployedCode(GetDeployedCodeCall),
@@ -11232,6 +11285,11 @@ pub mod hevm {
                 data,
             ) {
                 return Ok(Self::Ffi(decoded));
+            }
+            if let Ok(decoded) = <FormatUnitsCall as ::ethers_core::abi::AbiDecode>::decode(
+                data,
+            ) {
+                return Ok(Self::FormatUnits(decoded));
             }
             if let Ok(decoded) = <FsMetadataCall as ::ethers_core::abi::AbiDecode>::decode(
                 data,
@@ -12076,6 +12134,9 @@ pub mod hevm {
                 }
                 Self::Fee(element) => ::ethers_core::abi::AbiEncode::encode(element),
                 Self::Ffi(element) => ::ethers_core::abi::AbiEncode::encode(element),
+                Self::FormatUnits(element) => {
+                    ::ethers_core::abi::AbiEncode::encode(element)
+                }
                 Self::FsMetadata(element) => {
                     ::ethers_core::abi::AbiEncode::encode(element)
                 }
@@ -12493,6 +12554,7 @@ pub mod hevm {
                 }
                 Self::Fee(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Ffi(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FormatUnits(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FsMetadata(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetCode(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetDeployedCode(element) => ::core::fmt::Display::fmt(element, f),
@@ -13053,6 +13115,11 @@ pub mod hevm {
     impl ::core::convert::From<FfiCall> for HEVMCalls {
         fn from(value: FfiCall) -> Self {
             Self::Ffi(value)
+        }
+    }
+    impl ::core::convert::From<FormatUnitsCall> for HEVMCalls {
+        fn from(value: FormatUnitsCall) -> Self {
+            Self::FormatUnits(value)
         }
     }
     impl ::core::convert::From<FsMetadataCall> for HEVMCalls {
@@ -14312,6 +14379,18 @@ pub mod hevm {
         Hash
     )]
     pub struct FfiReturn(pub ::ethers_core::types::Bytes);
+    ///Container type for all return fields from the `formatUnits` function with signature `formatUnits(uint256,uint32)` and selector `0x0fe56c80`
+    #[derive(
+        Clone,
+        ::ethers_contract::EthAbiType,
+        ::ethers_contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash
+    )]
+    pub struct FormatUnitsReturn(pub ::std::string::String);
     ///Container type for all return fields from the `fsMetadata` function with signature `fsMetadata(string)` and selector `0xaf368a08`
     #[derive(
         Clone,
